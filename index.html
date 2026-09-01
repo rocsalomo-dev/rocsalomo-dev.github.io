@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roc Salomo — AI Engineer</title>
+  <meta name="description" content="AI engineer building autonomous agents and data pipelines that ship to production. Python, SQL, ETL background — now LLMs, agents and search-driven growth." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner container">
+      <a href="#top" class="brand mono">rs<span class="accent">/</span>portfolio</a>
+      <nav class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact" class="btn btn-ghost">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero container">
+      <p class="eyebrow mono reveal">// ai engineer</p>
+      <h1 class="reveal">Roc Salomo</h1>
+      <p class="hero-line reveal">I build autonomous <span class="accent">AI agents</span> and data pipelines that ship to production.</p>
+      <p class="hero-sub reveal">Python · SQL · ETL background — now applied to LLMs, agent orchestration and search-driven growth.</p>
+      <div class="hero-cta reveal">
+        <a href="#projects" class="btn btn-primary">View projects ↓</a>
+        <a href="#" class="btn btn-ghost" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <div class="hero-meta mono reveal">
+        <span class="dot live"></span> shipping production systems
+      </div>
+    </section>
+
+    <!-- ============ POSITIONING / ABOUT ============ -->
+    <section id="about" class="section container">
+      <h2 class="section-title reveal">From data engineering <span class="muted">to</span> AI agents</h2>
+      <p class="lede reveal">
+        I've spent my career building data pipelines, warehouses and automation. Now I'm applying that
+        foundation to <strong>autonomous LLM agents</strong> — systems that extract, validate, decide and
+        ship on their own, with real measurement and a closed feedback loop.
+      </p>
+      <div class="pillars">
+        <div class="pillar reveal">
+          <span class="pillar-num mono accent">01</span>
+          <h3>Agents &amp; orchestration</h3>
+          <p>Multi-agent systems with feedback loops, running autonomously on schedule.</p>
+        </div>
+        <div class="pillar reveal">
+          <span class="pillar-num mono accent">02</span>
+          <h3>Data pipelines</h3>
+          <p>Extraction → validation → structured output. Clean, schema-validated data at the core.</p>
+        </div>
+        <div class="pillar reveal">
+          <span class="pillar-num mono accent">03</span>
+          <h3>LLM in production</h3>
+          <p>Model tiering, cost control, API integration and measurement — not demos, but live systems.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects" class="section container">
+      <h2 class="section-title reveal">Projects</h2>
+      <p class="section-sub reveal">Real systems, real metrics, real trade-offs.</p>
+
+      <!-- ---- GravelRadar case study ---- -->
+      <article class="project reveal">
+        <div class="project-head">
+          <div class="project-tags">
+            <span class="tag tag-accent">AI agent / workflow</span>
+            <span class="tag">AI + data engineering</span>
+          </div>
+          <h3 class="project-title">GravelRadar</h3>
+          <p class="project-subtitle">Autonomous multi-agent platform for gravel cycling events</p>
+        </div>
+
+        <div class="project-body">
+          <div class="project-copy">
+            <h4>The problem</h4>
+            <p>
+              A global directory of gravel races needs <em>fresh, accurate event data</em> and
+              <em>organic traffic</em> — two things that don't scale manually.
+            </p>
+
+            <h4>The system</h4>
+            <p>
+              Three autonomous LLM agents — <strong>discovery</strong>, <strong>quality</strong> and
+              <strong>SEO</strong> — run daily on a schedule, coordinated by a promoter. They discover
+              events from the web, validate them against schemas, author SEO content, and measure the
+              results through a closed feedback loop.
+            </p>
+
+            <h4>The loop</h4>
+            <p class="mono loop-line">measure → prioritize → act → verify → update</p>
+          </div>
+
+          <div class="project-visual">
+            <div class="diagram" aria-label="GravelRadar agent architecture">
+              <div class="d-node">web sources</div>
+              <span class="d-arrow">→</span>
+              <div class="d-node d-agent">discovery</div>
+              <span class="d-arrow">→</span>
+              <div class="d-node">JSON</div>
+              <span class="d-arrow">→</span>
+              <div class="d-node d-agent">quality</div>
+              <span class="d-arrow">→</span>
+              <div class="d-node">build</div>
+              <span class="d-arrow">→</span>
+              <div class="d-node">production</div>
+              <span class="d-arrow">→</span>
+              <div class="d-node d-agent">search console</div>
+              <div class="d-loop mono">⤴ feedback</div>
+            </div>
+
+            <div class="terminal mono" aria-label="cron schedule">
+              <div class="term-bar"><span></span><span></span><span></span><span class="term-title">crontab -l</span></div>
+              <div class="term-body">
+                <div><span class="term-c">0 10 * * *</span> quality agent <span class="muted">· flash</span></div>
+                <div><span class="term-c">0 12 * * *</span> discovery agent <span class="muted">· flash</span></div>
+                <div><span class="term-c">0 13 * * *</span> seo agent <span class="muted">· pro</span></div>
+                <div><span class="term-c">0 14 * * *</span> promoter <span class="muted">· no LLM</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-metrics">
+          <div class="metric"><span class="metric-num mono">680</span><span class="metric-label">events tracked</span></div>
+          <div class="metric"><span class="metric-num mono">30</span><span class="metric-label">country pages</span></div>
+          <div class="metric"><span class="metric-num mono">3</span><span class="metric-label">autonomous agents</span></div>
+          <div class="metric"><span class="metric-num mono">100<span class="muted">/day</span></span><span class="metric-label">visits target</span></div>
+        </div>
+
+        <div class="project-foot">
+          <div class="stack">
+            <span class="stack-chip">Next.js</span><span class="stack-chip">TypeScript</span><span class="stack-chip">Tailwind</span>
+            <span class="stack-chip">DeepSeek</span><span class="stack-chip">GSC API</span><span class="stack-chip">PageSpeed API</span>
+            <span class="stack-chip">Zod</span><span class="stack-chip">Playwright</span><span class="stack-chip">systemd</span>
+          </div>
+          <div class="project-links">
+            <a href="https://thegravelradar.com" class="live-link" target="_blank" rel="noopener"><span class="dot live"></span> LIVE — thegravelradar.com</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ---- placeholder for future projects ---- -->
+      <div class="project-soon reveal">
+        <p class="mono muted">// more coming — rag application · bike catalog data pipeline</p>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section id="skills" class="section container">
+      <h2 class="section-title reveal">Skills</h2>
+      <div class="skill-groups">
+        <div class="skill-group reveal">
+          <h3 class="skill-title mono accent">LLM &amp; agents</h3>
+          <ul class="skill-list">
+            <li>Multi-agent orchestration</li>
+            <li>Prompt engineering</li>
+            <li>Feedback loops</li>
+            <li>Model tiering &amp; cost control</li>
+            <li>LLM APIs (DeepSeek, OpenAI)</li>
+          </ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3 class="skill-title mono accent">Data engineering</h3>
+          <ul class="skill-list">
+            <li>Python</li>
+            <li>SQL &amp; data warehousing</li>
+            <li>ETL pipelines</li>
+            <li>Schema validation (Zod)</li>
+            <li>Web scraping / extraction</li>
+          </ul>
+        </div>
+        <div class="skill-group reveal">
+          <h3 class="skill-title mono accent">Web &amp; automation</h3>
+          <ul class="skill-list">
+            <li>Next.js · TypeScript</li>
+            <li>Tailwind CSS</li>
+            <li>REST API integration</li>
+            <li>RPA &amp; scheduling</li>
+            <li>systemd · cron</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section container">
+      <h2 class="section-title reveal">Get in touch</h2>
+      <p class="lede reveal">
+        I'm open to AI engineering roles and interesting projects.
+        <a href="mailto:hello@example.com" class="accent">hello@example.com</a>
+      </p>
+      <div class="hero-cta reveal">
+        <a href="#" class="btn btn-primary" target="_blank" rel="noopener">GitHub</a>
+        <a href="#" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="mono muted">© 2026 Roc Salomo</span>
+      <span class="mono muted">built with plain html/css — deployed on github pages</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
