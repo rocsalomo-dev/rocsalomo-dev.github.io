@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fieldnote AI - Engineering Note | Roc Salomo</title>
+  <meta name="description" content="Technical case study of a private-first RAG assistant using Pinecone, local embeddings, Qwen, DeepSeek and citation validation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body>
+  <header class="nav"><div class="nav-inner container"><a href="../../" class="brand mono">rs<span class="accent">/</span>portfolio</a><nav class="nav-links"><a href="../../#projects">All case studies</a><a href="https://github.com/rocsalomo-dev/personal-ai-rag" class="btn btn-ghost" target="_blank" rel="noopener">Source code</a></nav></div></header>
+  <main>
+    <header class="article-hero container">
+      <a href="../../#projects" class="back-link mono">&larr; selected systems</a>
+      <div class="project-tags"><span class="tag tag-accent">Engineering note 01</span><span class="tag">RAG / knowledge systems</span></div>
+      <h1>Building a personal AI library that can show its evidence</h1>
+      <p class="article-deck">Fieldnote AI explores how retrieval, model knowledge and explicit agent boundaries can work together on a small CPU-only VPS.</p>
+      <div class="article-meta mono"><span>PROJECT / FIELDNOTE AI</span><span>STATUS / WORKING SYSTEM</span><span>READ / 8 MIN</span></div>
+    </header>
+
+    <div class="article-layout container">
+      <aside class="article-toc"><p class="mono">ON THIS PAGE</p><a href="#purpose">Purpose</a><a href="#concepts">Concepts</a><a href="#architecture">Architecture</a><a href="#retrieval">Retrieval</a><a href="#generation">Generation</a><a href="#production">Production</a><a href="#tradeoffs">Trade-offs</a><a href="#learned">What I learned</a></aside>
+      <article class="article-body">
+        <section id="purpose" class="article-section">
+          <span class="article-num mono">01</span><h2>Goal and purpose</h2>
+          <p>Course notes are useful while studying but become difficult to navigate as the library grows. The goal was to make that material queryable without building a chatbot that simply sounds confident. The answer should remain useful when the library has no relevant passage, while clearly identifying claims supported by personal material.</p>
+          <div class="callout"><span class="mono">DESIGN QUESTION</span><strong>How can an assistant combine model knowledge with personal evidence without confusing one for the other?</strong></div>
+        </section>
+
+        <section id="concepts" class="article-section">
+          <span class="article-num mono">02</span><h2>AI engineering concepts</h2>
+          <div class="decision-grid">
+            <div><h3>Retrieval-augmented generation</h3><p>Relevant information is retrieved at query time and placed into context. The model is not retrained when the library changes.</p></div>
+            <div><h3>Semantic embeddings</h3><p>Text and questions share a vector space, allowing retrieval by meaning instead of exact keywords.</p></div>
+            <div><h3>Grounded citations</h3><p>The model may cite only supplied identifiers. The backend renders only sources referenced by the final answer.</p></div>
+            <div><h3>Model routing</h3><p>The same retrieval pipeline can feed private local Qwen or lower-latency DeepSeek Flash.</p></div>
+            <div><h3>Prompt-injection boundaries</h3><p>Retrieved content is untrusted reference data and cannot redefine the agent role.</p></div>
+            <div><h3>Context engineering</h3><p>Candidate results are deduplicated and limited so the prompt remains focused for a small model.</p></div>
+          </div>
+        </section>
+
+        <section id="architecture" class="article-section">
+          <span class="article-num mono">03</span><h2>System architecture</h2>
+          <div class="architecture-flow mono">
+            <div><small>INPUT</small><strong>PDFs + transcripts</strong></div><i>&darr;</i>
+            <div><small>PREPARE</small><strong>extract / normalize / deduplicate / chunk</strong></div><i>&darr;</i>
+            <div><small>INDEX</small><strong>mxbai embeddings &rarr; Pinecone</strong></div><i>&darr;</i>
+            <div><small>QUERY</small><strong>embed &rarr; retrieve &rarr; select evidence</strong></div><i>&darr;</i>
+            <div class="flow-active"><small>GENERATE</small><strong>AGENT.md + evidence &rarr; Qwen or DeepSeek</strong></div><i>&darr;</i>
+            <div><small>VERIFY</small><strong>filter citations &rarr; render excerpts</strong></div>
+          </div>
+          <p>The browser communicates with FastAPI. FastAPI owns orchestration; Pinecone performs semantic retrieval; Ollama serves the embedding model and local LLM; DeepSeek is an optional generation provider. Provider selection never changes retrieval or citation behavior.</p>
+        </section>
+
+        <section id="retrieval" class="article-section">
+          <span class="article-num mono">04</span><h2>From documents to relevant context</h2>
+          <p>The ingestion pipeline extracts PDFs and transcripts, normalizes text and removes duplicate documents and chunks using content hashes. Each chunk carries metadata including course, source type, page, document ID and collection.</p>
+          <p><code>mxbai-embed-large</code> creates 1,024-dimensional vectors compatible with the Pinecone index. At query time the harness retrieves a wider candidate set, removes repeated content, limits concentration from one document and sends only the strongest evidence to generation.</p>
+          <div class="fact-row"><div><b>24</b><span>documents</span></div><div><b>186</b><span>chunks</span></div><div><b>1,024</b><span>dimensions</span></div><div><b>cosine</b><span>similarity</span></div></div>
+        </section>
+
+        <section id="generation" class="article-section">
+          <span class="article-num mono">05</span><h2>One agent contract, two models</h2>
+          <p>A versioned <code>AGENT.md</code> defines Fieldnote's role, supported tasks, citation policy, language behavior and safety boundaries. The harness loads it as the system instruction for every provider, keeping product behavior independent from the selected model.</p>
+          <div class="comparison"><div><span class="mono">LOCAL QWEN3 4B</span><h3>Privacy and ownership</h3><p>Runs on the CPU-only VPS through Ollama. Retrieved context stays outside a cloud answer provider, but generation is slower.</p></div><div><span class="mono">DEEPSEEK V4 FLASH</span><h3>Speed and capability</h3><p>Receives the question and selected passages through an API. One observed test answered in 2.3 seconds versus 49.9 seconds locally.</p></div></div>
+          <p class="measurement-note">Latency figures are individual observed tests, not a formal benchmark.</p>
+        </section>
+
+        <section id="production" class="article-section">
+          <span class="article-num mono">06</span><h2>Production setup</h2>
+          <ul class="article-list"><li><strong>FastAPI</strong> exposes health, model-registry and chat endpoints.</li><li><strong>systemd</strong> runs one unprivileged worker and restarts it after failure or reboot.</li><li><strong>Localhost bindings</strong> keep FastAPI and Ollama off the public network.</li><li><strong>Environment files</strong> store provider credentials outside Git.</li><li><strong>Browser-local transcripts</strong> preserve visible exchanges without creating model memory.</li><li><strong>GitHub Actions</strong> validates retrieval, provider and agent-loading behavior.</li></ul>
+        </section>
+
+        <section id="tradeoffs" class="article-section">
+          <span class="article-num mono">07</span><h2>Engineering trade-offs</h2>
+          <div class="tradeoff-table"><div><b>Decision</b><b>Benefit</b><b>Cost</b></div><div><span>4B local model</span><span>Fits the VPS and preserves privacy</span><span>Slow CPU generation</span></div><div><span>Managed vector database</span><span>Simple retrieval API</span><span>External dependency</span></div><div><span>No conversation memory</span><span>Less leakage and prompt growth</span><span>No multi-turn understanding</span></div><div><span>Limited evidence set</span><span>Focused small-model context</span><span>Can miss broader synthesis</span></div></div>
+        </section>
+
+        <section id="learned" class="article-section">
+          <span class="article-num mono">08</span><h2>What I learned</h2>
+          <p>RAG quality depends as much on document preparation, metadata and context selection as on the final model. A model-independent contract makes provider experiments safer, but prompts alone are not enforcement: credentials, retrieval limits, citation filtering and concurrency remain deterministic application code.</p>
+          <div class="article-cta"><p>Explore the implementation, tests and deployment files.</p><a href="https://github.com/rocsalomo-dev/personal-ai-rag" class="btn btn-primary" target="_blank" rel="noopener">View source on GitHub</a></div>
+        </section>
+      </article>
+    </div>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><span class="mono muted">&copy; 2026 Roc Salomo</span><a href="../../" class="mono accent">Back to portfolio &rarr;</a></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>

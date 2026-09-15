@@ -1,19 +1,30 @@
-# Roc Salomo — AI Engineer Portfolio
+# Roc Salomo - AI Engineer Portfolio
 
-My personal portfolio showcasing AI engineering projects — autonomous agents, data pipelines and LLM systems that ship to production.
+An engineering-notebook portfolio for grounded LLM applications, agentic
+workflows and production data systems.
 
-**Live:** *(deploy with GitHub Pages / Vercel / Netlify)*
+**Live:** [rocsalomo-dev.github.io](https://rocsalomo-dev.github.io/)
 
 ## Design
 
-"Dark technical" — a near-black, blue-tinted base with a single teal accent (`#2DD4BF`) and an amber metric color (`#F59E0B`). Typography: Space Grotesk (display), Inter (body), JetBrains Mono (code/metrics).
+"Dark technical" uses a near-black, blue-tinted base, a teal interactive
+accent and amber for measured results. Space Grotesk provides display type,
+Inter is used for body copy and JetBrains Mono identifies system details.
+
+Each project is presented at two levels:
+
+1. The homepage explains its purpose, user outcome and AI engineering concepts.
+2. A long-form engineering note documents architecture, implementation,
+   production controls, trade-offs and lessons learned.
 
 ## Structure
 
-```
-index.html   — single page: hero → positioning → projects → skills → contact
-styles.css   — design system (CSS variables for the full palette)
-script.js     — scroll-reveal (IntersectionObserver)
+```text
+index.html                        # Portfolio and case-study summaries
+projects/fieldnote-ai/index.html  # Fieldnote AI engineering note
+projects/gravelradar/index.html   # GravelRadar engineering note
+styles.css                        # Shared responsive design system
+script.js                         # Scroll-reveal behavior
 ```
 
 No build step, no dependencies. Open `index.html` or serve with any static server.
@@ -22,17 +33,16 @@ No build step, no dependencies. Open `index.html` or serve with any static serve
 
 | Project | Category | Status |
 |---|---|---|
-| **GravelRadar** | AI agent / workflow · AI + data engineering | 🟢 LIVE — [thegravelradar.com](https://thegravelradar.com) |
-| RAG application | RAG | upcoming |
-| Bike catalog | data pipeline | upcoming |
+| **Fieldnote AI** | RAG, grounding, model routing | Working system and [public source](https://github.com/rocsalomo-dev/personal-ai-rag) |
+| **GravelRadar** | Agents, structured data, feedback loops | [Live product](https://thegravelradar.com) |
 
 ## Run locally
 
 ```bash
 python3 -m http.server 8080
-# → http://localhost:8080
+# http://localhost:8080
 ```
 
 ## Deploy
 
-GitHub Pages (Settings → Pages → deploy from `main` / root), or drag-and-drop to Netlify/Vercel.
+GitHub Pages deploys the repository from `main` at the site root.

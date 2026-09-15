@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GravelRadar - Engineering Note | Roc Salomo</title>
+  <meta name="description" content="Technical case study of an agentic data and SEO platform for discovering, validating and publishing gravel cycling events." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body>
+  <header class="nav"><div class="nav-inner container"><a href="../../" class="brand mono">rs<span class="accent">/</span>portfolio</a><nav class="nav-links"><a href="../../#projects">All case studies</a><a href="https://thegravelradar.com" class="btn btn-ghost" target="_blank" rel="noopener">Live product</a></nav></div></header>
+  <main>
+    <header class="article-hero container">
+      <a href="../../#projects" class="back-link mono">&larr; selected systems</a>
+      <div class="project-tags"><span class="tag tag-accent">Engineering note 02</span><span class="tag">Agents / data / SEO</span></div>
+      <h1>Building an event platform that researches and improves itself</h1>
+      <p class="article-deck">GravelRadar explores where LLM agents add value inside a production data workflow and where deterministic software should remain in control.</p>
+      <div class="article-meta mono"><span>PROJECT / GRAVELRADAR</span><span>STATUS / LIVE PRODUCT</span><span>READ / 8 MIN</span></div>
+    </header>
+
+    <div class="article-layout container">
+      <aside class="article-toc"><p class="mono">ON THIS PAGE</p><a href="#purpose">Purpose</a><a href="#concepts">Concepts</a><a href="#architecture">Architecture</a><a href="#agents">Agent roles</a><a href="#quality">Quality</a><a href="#feedback">Feedback loop</a><a href="#tradeoffs">Trade-offs</a><a href="#learned">What I learned</a></aside>
+      <article class="article-body">
+        <section id="purpose" class="article-section">
+          <span class="article-num mono">01</span><h2>Goal and purpose</h2>
+          <p>Gravel events are distributed across organizer sites, social pages and regional calendars. Details change, formats differ and manual research does not scale. The project turns that fragmented information into a structured, searchable product with useful country, region and event pages.</p>
+          <div class="callout"><span class="mono">DESIGN QUESTION</span><strong>Where should an LLM make a judgment, and where should deterministic code verify and publish the result?</strong></div>
+        </section>
+
+        <section id="concepts" class="article-section">
+          <span class="article-num mono">02</span><h2>AI engineering concepts</h2>
+          <div class="decision-grid"><div><h3>Specialized agents</h3><p>Discovery, data quality and SEO are separate roles with focused goals, tools and output contracts.</p></div><div><h3>Structured generation</h3><p>Model output is proposed data and must conform to a schema before entering the product.</p></div><div><h3>Model tiering</h3><p>Fast economical models handle high-volume tasks while stronger models are reserved for harder work.</p></div><div><h3>Deterministic orchestration</h3><p>A non-LLM promoter controls workflow order, state transitions and publication.</p></div><div><h3>Tool-augmented agents</h3><p>Agents combine model reasoning with web research, Search Console and PageSpeed measurements.</p></div><div><h3>Closed feedback loop</h3><p>Observed production performance becomes input for the next prioritization cycle.</p></div></div>
+        </section>
+
+        <section id="architecture" class="article-section">
+          <span class="article-num mono">03</span><h2>System architecture</h2>
+          <div class="architecture-flow mono"><div><small>DISCOVER</small><strong>search web sources + identify candidates</strong></div><i>&darr;</i><div><small>STRUCTURE</small><strong>extract fields + validate schema</strong></div><i>&darr;</i><div><small>QUALITY</small><strong>deduplicate + verify + score completeness</strong></div><i>&darr;</i><div class="flow-active"><small>PUBLISH</small><strong>build event / region / country pages</strong></div><i>&darr;</i><div><small>MEASURE</small><strong>Search Console + PageSpeed signals</strong></div><i>&darr;</i><div><small>IMPROVE</small><strong>prioritize the next agent actions</strong></div></div>
+          <p>The public application is built with Next.js and TypeScript. Agent outputs pass through Zod schemas, scheduled Linux services run the workflows and Cloudflare adds edge protection in front of production.</p>
+        </section>
+
+        <section id="agents" class="article-section">
+          <span class="article-num mono">04</span><h2>Agent roles and boundaries</h2>
+          <div class="agent-list"><div><span class="mono">AGENT / 01</span><h3>Discovery</h3><p>Find candidate events, collect source URLs and propose structured records. It does not directly publish.</p></div><div><span class="mono">AGENT / 02</span><h3>Quality</h3><p>Review completeness, compare evidence and flag records that need correction or human attention.</p></div><div><span class="mono">AGENT / 03</span><h3>SEO</h3><p>Create useful page content from validated records and performance priorities rather than isolated articles.</p></div><div><span class="mono">CONTROL / 04</span><h3>Promoter</h3><p>Deterministic code coordinates state and deployment. It uses no LLM because workflow control should be predictable.</p></div></div>
+        </section>
+
+        <section id="quality" class="article-section">
+          <span class="article-num mono">05</span><h2>Quality before autonomy</h2>
+          <p>The model is not treated as a database writer with unlimited authority. Outputs are parsed, schema-validated and checked against existing records. Stable identifiers and duplicate checks protect the catalogue, while source URLs preserve traceability.</p>
+          <ul class="article-list"><li><strong>Schema validation</strong> rejects malformed output.</li><li><strong>Deduplication</strong> prevents a discovered event from becoming a second record.</li><li><strong>Selective publication</strong> separates proposals from production changes.</li><li><strong>Browser tests</strong> verify important public flows after changes.</li><li><strong>Rate limits and edge challenges</strong> reduce automated extraction.</li></ul>
+        </section>
+
+        <section id="feedback" class="article-section">
+          <span class="article-num mono">06</span><h2>From automation to a feedback loop</h2>
+          <p>A scheduled script is automation; an agentic product becomes more useful when outcomes influence the next action. GravelRadar collects search and performance signals, identifies weak or promising pages and directs future quality and SEO work toward measurable needs.</p>
+          <div class="loop-visual mono"><span>MEASURE</span><i>&rarr;</i><span>PRIORITIZE</span><i>&rarr;</i><span>ACT</span><i>&rarr;</i><span>VERIFY</span><i>&rarr;</i><span>UPDATE</span></div>
+          <div class="fact-row"><div><b>680</b><span>events tracked</span></div><div><b>30</b><span>country pages</span></div><div><b>3</b><span>LLM agents</span></div><div><b>Daily</b><span>execution cycle</span></div></div>
+        </section>
+
+        <section id="tradeoffs" class="article-section">
+          <span class="article-num mono">07</span><h2>Engineering trade-offs</h2>
+          <div class="tradeoff-table"><div><b>Decision</b><b>Benefit</b><b>Cost</b></div><div><span>Specialized agents</span><span>Focused prompts and easier diagnosis</span><span>More workflow coordination</span></div><div><span>Static SEO pages</span><span>Fast, indexable discovery experience</span><span>Public summaries remain crawlable</span></div><div><span>Daily batches</span><span>Predictable cost and resource use</span><span>Not real-time</span></div><div><span>Cloud model APIs</span><span>Fast generation without a GPU</span><span>Provider cost and dependency</span></div></div>
+        </section>
+
+        <section id="learned" class="article-section">
+          <span class="article-num mono">08</span><h2>What I learned</h2>
+          <p>Useful autonomy comes from bounded responsibilities and strong interfaces, not from giving one model every tool. Structured outputs, deterministic promotion and production measurement make the agents replaceable and the overall product easier to reason about.</p>
+          <div class="article-cta"><p>See the live product or review the public architecture showcase.</p><div><a href="https://thegravelradar.com" class="btn btn-primary" target="_blank" rel="noopener">Visit GravelRadar</a> <a href="https://github.com/rocsalomo-dev/gravelradar-showcase" class="btn btn-ghost" target="_blank" rel="noopener">Architecture repo</a></div></div>
+        </section>
+      </article>
+    </div>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><span class="mono muted">&copy; 2026 Roc Salomo</span><a href="../../" class="mono accent">Back to portfolio &rarr;</a></div></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
